@@ -1,8 +1,8 @@
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import './App.css'
-import Header from './components/header'
-import Footer from './components/Footer'
+import Header from './Components/Header'
+import Footer from './Components/Footer'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import fetchUserDetails from './utils/fetchUserDetails';
@@ -14,7 +14,7 @@ import SummaryApi from './common/SummaryApi';
 import { handleAddItemCart } from './store/cartProduct'
 import GlobalProvider from './provider/GlobalProvider';
 import { FaCartShopping } from "react-icons/fa6";
-import CartMobileLink from './components/CartMobile';
+import CartMobileLink from './Components/CartMobile';
 
 function App() {
   const dispatch = useDispatch()
