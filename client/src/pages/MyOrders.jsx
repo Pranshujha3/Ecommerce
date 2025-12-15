@@ -123,3 +123,7 @@ const MyOrders = () => {
 }
 
 export default MyOrders
+
+
+
+// fixing import capitalization
