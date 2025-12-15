@@ -13,6 +13,6 @@ const fetchUserDetails = async()=>{
     }
 }
 
-export default fetchUserDetails 
+export default fetchUserDetails;
 
-//end
+// fixing build error
