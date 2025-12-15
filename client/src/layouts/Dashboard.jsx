@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import UserMenu from '../components/UserMenu'
+import UserMenu from '../Components/UserMenu'
 import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { FaBarsStaggered } from "react-icons/fa6"; // Switched to a more modern icon

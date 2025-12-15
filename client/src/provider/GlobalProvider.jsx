@@ -1,7 +1,7 @@
 import React from "react";
 import { createContext,useContext, useEffect, useState } from "react";
 import Axios from "../utils/Axios";
-import SummaryApi from "../common/SummaryApi";
+import SummaryApi from "../common/summaryApi";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddItemCart } from "../store/cartProduct";
 import AxiosToastError from "../utils/AxiosToastError";
