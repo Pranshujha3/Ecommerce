@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../utils/UploadImage';
-import Loading from '../components/Loading';
-import ViewImage from '../components/ViewImage';
+import Loading from '../Components/Loading';
+import ViewImage from '../Components/ViewImage';
 import { MdDelete } from "react-icons/md";
 import { useSelector } from 'react-redux'
 import { IoClose } from "react-icons/io5";
-import AddFieldComponent from '../components/AddFieldComponent';
+import AddFieldComponent from '../Components/AddFieldComponent';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/summaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
@@ -444,4 +444,6 @@ const EditProductAdmin = ({ close ,data : propsData,fetchProductData}) => {
 }
 
 export default EditProductAdmin
+
+//RESOLVED ERROR
 
