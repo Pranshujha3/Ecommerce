@@ -4,7 +4,7 @@ import Loading from '../Components/Loading'
 import NoData from '../Components/NoData'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/summaryApi'
-import EditCategory from '../components/EditCategory'
+import EditCategory from '../Components/EditCategory'
 import CofirmBox from '../Components/CofirmBox'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
@@ -166,3 +166,5 @@ const CategoryPage = () => {
 }
 
 export default CategoryPage
+
+//resolved error
