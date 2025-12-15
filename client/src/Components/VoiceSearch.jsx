@@ -8,22 +8,22 @@ const SearchBar = ({ onSearch }) => {
   const {
     transcript,
     listening,
-    resetTranscript, // <--- Ensure this is imported
+    resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
-  // 1. Sync voice transcript with the search input (Visual only)
+
   useEffect(() => {
     if (listening && transcript) {
       setQuery(transcript);
     }
   }, [transcript, listening]);
 
-  // 2. *** FIXED: Auto-submit when voice stops listening ***
+
   useEffect(() => {
     if (!listening && transcript) {
         onSearch(transcript);
-        resetTranscript(); // <--- 🛑 THIS LINE STOPS THE INFINITE LOOP
+        resetTranscript(); 
     }
   }, [listening, transcript, onSearch, resetTranscript]);
 
