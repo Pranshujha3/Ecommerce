@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import { FaCloudUploadAlt, FaPlus } from "react-icons/fa";
 import uploadImage from '../utils/UploadImage';
-import Loading from '../components/Loading';
-import ViewImage from '../components/ViewImage';
+import Loading from '../Components/Loading';
+import ViewImage from '../Components/ViewImage';
 import { MdDelete, MdOutlineCancel } from "react-icons/md";
 import { useSelector } from 'react-redux'
-import AddFieldComponent from '../components/AddFieldComponent';
+import AddFieldComponent from '../Components/AddFieldComponent';
 import Axios from '../utils/Axios';
-import SummaryApi from '../common/SummaryApi';
+import SummaryApi from '../common/summaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import successAlert from '../utils/SuccessAlert';
 

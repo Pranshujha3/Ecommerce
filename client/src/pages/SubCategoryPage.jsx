@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from 'react'
-import CardLoading from '../components/CardLoading'
-import SummaryApi from '../common/SummaryApi'
+import CardLoading from '../Components/CardLoading'
+import SummaryApi from '../common/summaryApi'
 import Axios from '../utils/Axios'
 import AxiosToastError from '../utils/AxiosToastError'
-import CardProduct from '../components/CardProduct'
+import CardProduct from '../Components/CardProduct'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useLocation } from 'react-router-dom'
 import noDataImage from '../assets/nothing here yet.webp'

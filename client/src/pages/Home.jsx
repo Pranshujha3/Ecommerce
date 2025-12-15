@@ -4,14 +4,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import Axios from '../utils/Axios'
 import { useGlobalContext } from '../provider/GlobalProvider'
 import toast from 'react-hot-toast'
-import SummaryApi from '../common/SummaryApi'
+import SummaryApi from '../common/summaryApi'
 import AxiosToastError from '../utils/AxiosToastError'
 import { FaBoxOpen } from "react-icons/fa"; // Icon for empty state
 
 // Import your banners
 import banner from '../assets/banner.jpg'
 import bannerMobile from '../assets/banner-mobile.jpg'
-import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay'
+import CategoryWiseProductDisplay from '../Components/CategoryWiseProductDisplay'
 import { valideURLConvert } from '../utils/valideURLConvert'
 
 const Home = () => {

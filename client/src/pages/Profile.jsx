@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaRegUserCircle, FaCamera, FaRegUser, FaRegEnvelope, FaMobileAlt } from "react-icons/fa";
-import UserProfileAvatarEdit from '../components/UserProfileAvatarEdit';
+import UserProfileAvatarEdit from '../Components/UserProfileAvatarEdit';
 import Axios from '../utils/Axios';
-import SummaryApi from '../common/SummaryApi';
+import SummaryApi from '../common/summaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
 import { setUserDetails } from '../store/userSlice';

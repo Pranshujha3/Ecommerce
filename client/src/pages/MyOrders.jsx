@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import NoData from '../components/NoData'
+import NoData from '../Components/NoData'
 import { FaBoxOpen } from "react-icons/fa"; 
 import { IoIosArrowForward } from "react-icons/io"; 
 import { useNavigate } from 'react-router-dom'; 

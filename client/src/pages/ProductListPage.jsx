@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
+import SummaryApi from '../common/summaryApi'
 import { Link, useParams } from 'react-router-dom'
 import AxiosToastError from '../utils/AxiosToastError'
-import Loading from '../components/Loading'
-import CardProduct from '../components/CardProduct'
+import Loading from '../Components/Loading'
+import CardProduct from '../Components/CardProduct'
 import { useSelector } from 'react-redux'
 import { valideURLConvert } from '../utils/valideURLConvert'
 

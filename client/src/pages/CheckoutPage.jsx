@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useGlobalContext } from '../provider/GlobalProvider'
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees'
-import AddAddress from '../components/AddAddress'
+import AddAddress from '../Components/AddAddress'
 import { useSelector, useDispatch } from 'react-redux' // Import useDispatch
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
+import SummaryApi from '../common/summaryApi'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { loadStripe } from '@stripe/stripe-js'

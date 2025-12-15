@@ -4,7 +4,7 @@ import { MdOutlineMail } from "react-icons/md"; // Added Mail icon
 import { RiLockPasswordLine } from "react-icons/ri"; // Added Lock icon
 import toast from 'react-hot-toast';
 import Axios from '../utils/Axios';
-import SummaryApi from '../common/SummaryApi';
+import SummaryApi from '../common/summaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import { Link, useNavigate } from 'react-router-dom';
 

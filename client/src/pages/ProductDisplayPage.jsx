@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import SummaryApi from '../common/SummaryApi'
+import SummaryApi from '../common/summaryApi'
 import Axios from '../utils/Axios'
 import AxiosToastError from '../utils/AxiosToastError'
 import { FaAngleRight,FaAngleLeft } from "react-icons/fa6";
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees'
-import Divider from '../components/Divider'
+import Divider from '../Components/Divider'
 import image1 from '../assets/minute_delivery.png'
 import image2 from '../assets/Best_Prices_Offers.png'
 import image3 from '../assets/Wide_Assortment.png'
 import { pricewithDiscount } from '../utils/PriceWithDiscount'
-import AddToCartButton from '../components/AddToCartButton'
+import AddToCartButton from '../Components/AddToCartButton'
 
 const ProductDisplayPage = () => {
   const params = useParams()
