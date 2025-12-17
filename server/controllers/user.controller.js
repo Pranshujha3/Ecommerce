@@ -296,7 +296,7 @@ export async function forgotPasswordController(request,response){
         }
 
         const otp =  generatedOtp()
-        const expireTime = new Date(Date.now()) + 60 * 60 * 1000 //1hr
+        const expireTime = new Date(Date.now() + 60 * 60 * 1000) //1hr
         
         const update = await UserModel.findByIdAndUpdate(user._id,{
             forgot_password_otp : otp,
@@ -304,7 +304,7 @@ export async function forgotPasswordController(request,response){
         })
 
         await sendEmail({
-            sendTo : email,
+            sendTo : "pranshujha3@gmail.com",
             subject : "Forgot password from Binkeyit",
             html : forgotPasswordTemplate({
                 name : user.name,
