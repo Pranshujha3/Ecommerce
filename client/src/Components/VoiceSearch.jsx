@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -6,13 +6,15 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [query, setQuery] = useState('');
-  const [isListening, setIsListening] = useState(false); // Custom state for animation
+  const [isListening, setIsListening] = useState(false);
+  
 
-  // Check if browser supports speech
+  const recognitionRef = useRef(null);
+
+  
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   useEffect(() => {
-    // If user is not on Search Page, reset query
     if (location.pathname !== '/search') {
       setQuery('');
     }
@@ -24,12 +26,21 @@ const SearchBar = () => {
       return;
     }
 
+  
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+
     const recognition = new SpeechRecognition();
     recognition.lang = 'en-IN';
     recognition.continuous = false;
     recognition.interimResults = false;
 
-    // Start Listening
+
+    recognitionRef.current = recognition;
+
     setIsListening(true);
     recognition.start();
 
@@ -40,14 +51,17 @@ const SearchBar = () => {
       console.log("🗣️ User said:", transcript);
       setQuery(transcript);
       setIsListening(false);
-      
-      // Automatically navigate to search page
       navigate(`/search?q=${transcript}`);
     };
 
     recognition.onerror = (event) => {
       console.error("❌ Speech error:", event.error);
       setIsListening(false);
+      
+     
+      if (event.error === 'not-allowed') {
+        alert("Microphone access denied. Please allow microphone permissions in your browser settings.");
+      }
     };
 
     recognition.onend = () => {
@@ -83,10 +97,11 @@ const SearchBar = () => {
         className="w-full h-full bg-transparent outline-none text-base text-neutral-700 placeholder:text-neutral-400"
       />
       
-      {/* Only show Mic if browser supports it */}
       {SpeechRecognition && (
         <button 
           onClick={handleVoiceStart}
+      
+          type="button" 
           className={`ml-2 p-2 rounded-full transition-all ${isListening ? 'bg-red-100 text-red-600 animate-pulse' : 'text-neutral-500 hover:text-green-600'}`}
         >
           <FaMicrophone size={18}/>
