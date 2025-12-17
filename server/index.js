@@ -18,7 +18,23 @@ import orderRouter from './route/order.route.js'
 const app = express()
 app.use(cors({
     credentials : true,
-    origin : process.env.FRONTEND_URL
+  origin: (origin, callback) => {
+        // 1. Allow requests with no origin (like Postman or mobile apps)
+        if (!origin) return callback(null, true);
+
+        // 2. Allow your main FRONTEND_URL from .env
+        if (origin === process.env.FRONTEND_URL) return callback(null, true);
+
+        // 3. Allow any Vercel deployment (Dynamic Preview URLs)
+        // This fixes the issue for all future unique deployment links
+        if (origin.endsWith('.vercel.app')) return callback(null, true);
+
+        // 4. (Optional) Allow localhost for local development
+        if (origin.includes('localhost')) return callback(null, true);
+
+        // Block everything else
+        callback(new Error('Not allowed by CORS'));
+    }
 }))
 app.use(cookieParser())
 app.use(express.json())
