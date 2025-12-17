@@ -259,8 +259,8 @@ export async function updateUserDetails(request,response){
 
         const updateUser = await UserModel.updateOne({_id : userId},{
             ...(name && { name : name}),
-             ...(email && { email : name}),
-              ...(mobile && { name : mobile}),
+             ...(email && { email : email}),
+              ...(mobile && { mobile : mobile}),
               ...(password && { password : hashPassword})
         })
 
