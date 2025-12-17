@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
     name:{
         type:String,
         required: [true, "provide name"],
-        unique: true
     },
      email : {
         type : String,
@@ -20,7 +19,7 @@ const userSchema = new mongoose.Schema({
         default : ""
     },
     mobile : {
-        type: Number,
+        type: String,
         default : null
     },
     refresh_token : {
@@ -33,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     last_login_date :{
         type: Date,
-        default: ""
+        default: null
     },
     status :{
         type : String,
@@ -64,7 +63,7 @@ const userSchema = new mongoose.Schema({
     },
      forgot_password_expiry :{
         type : Date,
-        default : ""
+        default : null
     },
     role : {
         type : String,
