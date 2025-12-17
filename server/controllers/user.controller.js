@@ -352,11 +352,13 @@ export async function verifyForgotPasswordOtp(request,response){
             })
         }
 
-        const currentataime = new Date().toISOString()
+        const currentTime = new Date()
 
-        if(user.forgot_password_expiry <currentTime ){
+        const expiryDate = new Date(user.forgot_password_expiry)
+
+       if(expiryDate < currentTime){ 
             return response.status(400).json({
-                message : "otp is expired",
+                message : "Otp is expired",
                 error : true,
                 success : false
             })

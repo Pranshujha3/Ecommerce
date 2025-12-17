@@ -7,11 +7,12 @@ if(!process.env.RESEND_API){
 }
 
 const resend = new Resend(process.env.RESEND_API);
+console.log("Current API Key:", process.env.RESEND_API_KEY);
 
 const sendEmail = async({sendTo, subject, html}) => {
     try {
         const { data, error } = await resend.emails.send({
-    from: "Binkeyit <onboarding@resend.dev>",
+    from: "binkeyit <onboarding@resend.dev>",
     to: "pranshujha3@gmail.com",
     subject: subject,
     html: html,
