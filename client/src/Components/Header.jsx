@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import logo from '../assets/logo.png'
 import Search from '../Components/VoiceSearch' 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaRegCircleUser, FaShieldHalved } from "react-icons/fa6"; // Added Shield Icon for Admin
 import useMobile from '../hooks/useMobile';
 import { BsCart4 } from "react-icons/bs";
 import { useSelector } from 'react-redux';
@@ -46,7 +46,6 @@ const Header = () => {
     }
 
     return (
-        // UPDATED: Changed bg-[#fbfdb0] to bg-blue-50 and border-yellow-200 to border-blue-200
         <header className='h-24 lg:h-20 shadow-sm sticky top-0 z-50 flex flex-col justify-center gap-1 bg-blue-100 border-b border-blue-200 transition-all duration-300'>
             {
                 !(isSearchPage && isMobile) && (
@@ -55,20 +54,8 @@ const Header = () => {
                         {/** --- LOGO SECTION --- */}
                         <div className='h-full flex items-center transform transition hover:scale-105 duration-200'>
                             <Link to={"/"} className='h-full flex justify-center items-center'>
-                                <img
-                                    src={logo}
-                                    width={170}
-                                    height={60}
-                                    alt='logo'
-                                    className='hidden lg:block object-contain'
-                                />
-                                <img
-                                    src={logo}
-                                    width={120}
-                                    height={60}
-                                    alt='logo'
-                                    className='lg:hidden object-contain'
-                                />
+                                <img src={logo} width={170} height={60} alt='logo' className='hidden lg:block object-contain' />
+                                <img src={logo} width={120} height={60} alt='logo' className='lg:hidden object-contain' />
                             </Link>
                         </div>
 
@@ -80,26 +67,23 @@ const Header = () => {
                         {/** --- USER & CART SECTION --- */}
                         <div className='flex items-center gap-4 lg:gap-8'>
                             
-                            {/* Mobile User Icon */}
-                            <button className='text-neutral-700 hover:text-blue-700 transition-colors lg:hidden' onClick={handleMobileUser}>
-                                {
-                                    // Mobile: Show Image if available, else Icon
-                                    user.avatar ? (
-                                        <img src={user.avatar} alt='User' className='w-8 h-8 rounded-full object-cover border border-blue-500'/>
-                                    ) : (
-                                        <FaRegCircleUser size={28} />
-                                    )
-                                }
-                            </button>
+                            {/* Desktop User Menu Area */}
+                            <div className='hidden lg:flex items-center gap-4'>
+                                
+                                {/** ✨ NEW: ADMIN PANEL BUTTON (Only shows if role is ADMIN) */}
+                                {user?.role === "ADMIN" && (
+                                    <Link 
+                                        to="/dashboard/products" 
+                                        className='flex items-center gap-2 bg-white border border-blue-600 text-blue-600 px-3 py-1.5 rounded-full text-xs font-bold hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm'
+                                    >
+                                        <FaShieldHalved size={14}/>
+                                        Admin Panel
+                                    </Link>
+                                )}
 
-                            {/* Desktop User Menu */}
-                            <div className='hidden lg:flex items-center gap-6'>
                                 {
                                     user?._id ? (
                                         <div className='relative'>
-                                            
-                                            {/* *** ACCOUNT BOX *** */}
-                                            {/* UPDATED: Changed borders from yellow to blue/gray */}
                                             <div 
                                                 onClick={() => setOpenUserMenu(prev => !prev)} 
                                                 className={`
@@ -109,69 +93,44 @@ const Header = () => {
                                                     ${openUserMenu ? 'border-blue-500 shadow-md text-blue-700' : ''}
                                                 `}
                                             >
-                                                {/* LOGIC: IF user.avatar exists -> Show Image. ELSE -> Show Icon */}
-                                                {
-                                                    user.avatar ? (
-                                                        <img 
-                                                            src={user.avatar} 
-                                                            alt={user.name} 
-                                                            className='w-9 h-9 rounded-full object-cover border border-gray-200'
-                                                        />
-                                                    ) : (
-                                                        <FaRegCircleUser size={22} className="text-neutral-500"/> 
-                                                    )
-                                                }
-                                                
-                                                <div className='hidden md:block'>
-                                                    <p className='text-sm font-semibold'>Account</p>
-                                                </div>
-
+                                                {user.avatar ? (
+                                                    <img src={user.avatar} alt={user.name} className='w-9 h-9 rounded-full object-cover border border-gray-200'/>
+                                                ) : (
+                                                    <FaRegCircleUser size={22} className="text-neutral-500"/> 
+                                                )}
+                                                <div className='hidden md:block text-sm font-semibold'>Account</div>
                                                 <div className='transition-transform duration-200'>
                                                     {openUserMenu ? <GoTriangleUp size={20} /> : <GoTriangleDown size={20} />}
                                                 </div>
                                             </div>
                                             
-                                            {/* Dropdown Menu */}
-                                            {
-                                                openUserMenu && (
-                                                    <div className='absolute right-0 top-16 z-50 animate-fade-in-down'>
-                                                        <div className='bg-white rounded-xl shadow-2xl border border-gray-100 p-4 min-w-[240px]'>
-                                                            <UserMenu close={handleCloseUserMenu} />
-                                                        </div>
+                                            {openUserMenu && (
+                                                <div className='absolute right-0 top-16 z-50 animate-fade-in-down'>
+                                                    <div className='bg-white rounded-xl shadow-2xl border border-gray-100 p-4 min-w-[240px]'>
+                                                        <UserMenu close={handleCloseUserMenu} />
                                                     </div>
-                                                )
-                                            }
+                                                </div>
+                                            )}
                                         </div>
                                     ) : (
-                                        <button 
-                                            onClick={redirectToLoginPage} 
-                                            className='text-lg font-medium text-neutral-800 hover:text-blue-800 transition-colors px-4 py-2 rounded-full hover:bg-white/50'
-                                        >
-                                            Login
-                                        </button>
+                                        <button onClick={redirectToLoginPage} className='text-lg font-medium text-neutral-800 hover:text-blue-800 transition-colors px-4 py-2 rounded-full hover:bg-white/50'>Login</button>
                                     )
                                 }
 
-                                {/* --- CART BUTTON --- */}
                                 <button 
                                     onClick={() => setOpenCartSection(true)} 
                                     className='group flex items-center gap-3 bg-gradient-to-r from-green-700 to-green-600 hover:from-green-800 hover:to-green-700 text-white px-4 py-2.5 rounded-full shadow-md hover:shadow-lg transform active:scale-95 transition-all duration-300'
                                 >
-                                    <div className='relative'>
-                                        <BsCart4 size={24} className='group-hover:animate-wiggle'/>
-                                    </div>
-                                    
+                                    <BsCart4 size={24} className='group-hover:animate-wiggle'/>
                                     <div className='font-semibold text-sm flex flex-col items-start leading-tight'>
-                                        {
-                                            cartItem[0] ? (
-                                                <>
-                                                    <span className='text-xs opacity-90'>{totalQty} Items</span>
-                                                    <span>{DisplayPriceInRupees(totalPrice)}</span>
-                                                </>
-                                            ) : (
-                                                <span className='text-base'>My Cart</span>
-                                            )
-                                        }
+                                        {cartItem[0] ? (
+                                            <>
+                                                <span className='text-xs opacity-90'>{totalQty} Items</span>
+                                                <span>{DisplayPriceInRupees(totalPrice)}</span>
+                                            </>
+                                        ) : (
+                                            <span className='text-base'>My Cart</span>
+                                        )}
                                     </div>
                                 </button>
                             </div>
@@ -179,16 +138,10 @@ const Header = () => {
                     </div>
                 )
             }
-
             <div className='container mx-auto px-4 lg:hidden pb-2'>
                 <Search onSearch={handleSearchPageRedirect} />
             </div>
-
-            {
-                openCartSection && (
-                    <DisplayCartItem close={() => setOpenCartSection(false)} />
-                )
-            }
+            {openCartSection && <DisplayCartItem close={() => setOpenCartSection(false)} />}
         </header>
     )
 }

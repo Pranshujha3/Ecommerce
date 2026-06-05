@@ -40,6 +40,10 @@ const productSchema = new mongoose.Schema({
         type : String,
         default : ""
     },
+    tags: {
+        type: [String],
+        default: [] 
+    },
     more_details : {
         type : Object,
         default : {}
@@ -55,10 +59,12 @@ const productSchema = new mongoose.Schema({
 
 productSchema.index({
     name: 'text', 
-    description: 'text'
+    description: 'text',
+    tags: 'text'
 }, {
     weights: {
-        name: 10,       // Matches in name are 10x more important
+        name: 10,
+        tags: 8,       // Matches in name are 10x more important
         description: 1  // Matches in description are standard priority
     }
 });

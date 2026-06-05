@@ -103,7 +103,11 @@ const router = createBrowserRouter([
                     {
                         path : ":subCategory",
                         element : <ProductListPage/>
-                    }
+                    },
+                    {
+            path : "products",
+            element : <ProductAdmin />
+        },
                 ]
             },
             {

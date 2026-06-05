@@ -20,9 +20,14 @@ const AddToCartButton = ({ data }) => {
         e.preventDefault()
         e.stopPropagation()
 
+        // Safety check: Don't allow adding if ID is missing
+        if(!data?._id){
+            toast.error("Product information missing")
+            return
+        }
+
         try {
             setLoading(true)
-
             const response = await Axios({
                 ...SummaryApi.addTocart,
                 data: {
@@ -31,7 +36,6 @@ const AddToCartButton = ({ data }) => {
             })
 
             const { data: responseData } = response
-
             if (responseData.success) {
                 toast.success(responseData.message)
                 if (fetchCartItem) {
@@ -43,16 +47,16 @@ const AddToCartButton = ({ data }) => {
         } finally {
             setLoading(false)
         }
-
     }
 
-    //checking this item in cart or not
+    // Checking item in cart with SAFETY CHECKS
     useEffect(() => {
-        const checkingitem = cartItem.some(item => item.productId._id === data._id)
+        // We use ?. to ensure if productId is null, it won't crash
+        const checkingitem = cartItem.some(item => item?.productId?._id === data?._id)
         setIsAvailableCart(checkingitem)
 
-        const product = cartItem.find(item => item.productId._id === data._id)
-        setQty(product?.quantity)
+        const product = cartItem.find(item => item?.productId?._id === data?._id)
+        setQty(product?.quantity || 0)
         setCartItemsDetails(product)
     }, [data, cartItem])
 
@@ -60,10 +64,10 @@ const AddToCartButton = ({ data }) => {
     const increaseQty = async(e) => {
         e.preventDefault()
         e.stopPropagation()
+        if(!cartItemDetails?._id) return;
     
-       const response = await  updateCartItem(cartItemDetails?._id,qty+1)
-        
-       if(response.success){
+       const response = await updateCartItem(cartItemDetails?._id, qty + 1)
+       if(response?.success){
         toast.success("Item added")
        }
     }
@@ -71,34 +75,33 @@ const AddToCartButton = ({ data }) => {
     const decreaseQty = async(e) => {
         e.preventDefault()
         e.stopPropagation()
+        if(!cartItemDetails?._id) return;
+
         if(qty === 1){
             deleteCartItem(cartItemDetails?._id)
         }else{
-            const response = await updateCartItem(cartItemDetails?._id,qty-1)
-
-            if(response.success){
-                toast.success("Item remove")
+            const response = await updateCartItem(cartItemDetails?._id, qty - 1)
+            if(response?.success){
+                toast.success("Item removed")
             }
         }
     }
+
     return (
         <div className='w-full max-w-[150px]'>
             {
                 isAvailableCart ? (
                     <div className='flex w-full h-full'>
                         <button onClick={decreaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaMinus /></button>
-
                         <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center'>{qty}</p>
-
                         <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaPlus /></button>
                     </div>
                 ) : (
-                    <button onClick={handleADDTocart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
+                    <button onClick={handleADDTocart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded w-full'>
                         {loading ? <Loading /> : "Add"}
                     </button>
                 )
             }
-
         </div>
     )
 }

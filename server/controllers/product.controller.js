@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import ProductModel from "../models/product.model.js";
+import { generateTags } from '../utils/tagGenerator.js';
+import { generateTagsForProduct } from "../utils/aiHelper.js"; // <--- 1. IMPORT ADDED HERE
 
 export const createProductController = async(request,response)=>{
     try {
@@ -24,6 +26,9 @@ export const createProductController = async(request,response)=>{
             })
         }
 
+        // 2. GENERATE TAGS HERE
+        const autoTags = generateTags(name, description);
+
         const product = new ProductModel({
             name ,
             image ,
@@ -35,6 +40,7 @@ export const createProductController = async(request,response)=>{
             discount,
             description,
             more_details,
+            tags: autoTags // <--- 3. SAVE TAGS TO DATABASE
         })
         const saveProduct = await product.save()
 
@@ -132,7 +138,6 @@ export const getProductByCategoryAndSubCategory = async (req, res) => {
     try {
         const { categoryId, subCategoryId } = req.body;
 
-        // 1. The Fix: specific check for the string "undefined"
         if (!categoryId || !subCategoryId || subCategoryId === "undefined") {
              return res.status(400).json({
                 message: "Valid SubCategory ID is required",
@@ -141,7 +146,6 @@ export const getProductByCategoryAndSubCategory = async (req, res) => {
             });
         }
 
-        // 2. Prevent CastError (The Crash)
         if (!mongoose.Types.ObjectId.isValid(subCategoryId)) {
              return res.status(400).json({
                 message: "Invalid SubCategory ID Format",
@@ -150,7 +154,6 @@ export const getProductByCategoryAndSubCategory = async (req, res) => {
             });
         }
 
-        // ... Your normal query code ...
         const data = await ProductModel.find({ 
             category: categoryId, 
             subCategory: subCategoryId 
@@ -163,12 +166,12 @@ export const getProductByCategoryAndSubCategory = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 export const getProductDetails = async(request,response)=>{
     try {
         const { productId } = request.body 
 
         const product = await ProductModel.findOne({ _id : productId })
-
 
         return response.json({
             message : "product details",
@@ -249,6 +252,52 @@ export const deleteProductDetails = async(request,response)=>{
     }
 }
 
+
+export const getTaggingStats = async (req, res) => {
+    try {
+        const total = await ProductModel.countDocuments();
+        const untagged = await ProductModel.countDocuments({
+            $or: [
+                { tags: { $exists: false } },
+                { tags: { $size: 0 } }
+            ]
+        });
+
+        return res.json({
+            success: true,
+            total,
+            tagged: total - untagged,
+            untagged,
+            healthPercentage: total > 0 ? (((total - untagged) / total) * 100).toFixed(2) : 0
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const runAutoTaggingAction = async (req, res) => {
+    try {
+        const products = await ProductModel.find({
+            $or: [{ tags: { $exists: false } }, { tags: { $size: 0 } }]
+        });
+
+        for (const product of products) {
+            const newTags = await generateTagsForProduct(product);
+            if (newTags.length > 0) {
+                product.tags = newTags;
+                await product.save();
+            }
+            
+            // ✅ INCREASE DELAY: 5000ms (5 seconds)
+            // This keeps you safely under the 20 requests/minute limit
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
+
+        res.json({ success: true, message: "Sync complete" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
 //search product
 export const searchProduct = async(request,response)=>{
    try {
@@ -266,7 +315,8 @@ export const searchProduct = async(request,response)=>{
         const query = search ? {
             $or: [
                 { name: { $regex: search, $options: 'i' } },
-                { description: { $regex: search, $options: 'i' } }
+                { description: { $regex: search, $options: 'i' } },
+                { tags: { $regex: search, $options: 'i' } } // <--- 4. ADDED TAG SEARCH
             ]
         } : {}
 

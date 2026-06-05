@@ -153,6 +153,14 @@ const SummaryApi = {
     getOrderItems : {
         url : '/api/order/order-list',
         method : 'get'
+    },
+    getTaggingStats : {
+        url : '/api/product/tagging-stats',
+        method : 'get'
+    },
+    runAutoTagging : {
+        url : '/api/product/run-auto-tagging',
+        method : 'post'
     }
 }
 

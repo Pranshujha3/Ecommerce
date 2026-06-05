@@ -15,7 +15,7 @@ const Profile = () => {
     const [userData, setUserData] = useState({
         name: user.name,
         email: user.email,
-        mobile: user.mobile,
+        mobile: user.mobile || ""
     })
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ const Profile = () => {
         setUserData({
             name: user.name,
             email: user.email,
-            mobile: user.mobile,
+            mobile: user.mobile || ""
         })
     }, [user])
 
