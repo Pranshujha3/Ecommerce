@@ -16,17 +16,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
-
       - name: Build and push Backend Image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context: ./server
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/blinkit-backend:latest
 
       - name: Build and push Frontend Image
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend
+          context: ./client
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/blinkit-frontend:latest
