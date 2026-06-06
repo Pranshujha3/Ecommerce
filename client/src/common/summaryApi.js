@@ -1,4 +1,4 @@
-export const baseURL = import.meta.env.VITE_API_URL
+export const baseURL ="http://43.204.37.227:5000"
 console.log("My Base URL is:", baseURL);
 
 const SummaryApi = {
