@@ -33,6 +33,9 @@ app.use(cors({
         // 4. (Optional) Allow localhost for local development
         if (origin.includes('localhost')) return callback(null, true);
 
+        // 5. Allow AWS Production Frontend
+        if (origin === 'http://43.204.37.227') return callback(null, true);
+
         // Block everything else
         callback(new Error('Not allowed by CORS'));
     }
