@@ -47,7 +47,11 @@ app.use(helmet({
     crossOriginResourcePolicy : false
 }))
 
-const PORT = 8080 || process.env.PORT 
+connectDB().then(()=>{
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log("Server is running on port", PORT)
+    })
+}) 
 
 app.get("/",(request,response)=>{
     ///server to client
